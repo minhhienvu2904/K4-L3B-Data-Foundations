@@ -127,6 +127,10 @@ def run_manual_demo(question: str | None = None, sample_files: list[str] | None 
 
 
 def main() -> int:
+    # Windows consoles may default to a legacy code page that cannot print the
+    # Vietnamese sample corpus.  Keep the command-line demo portable.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     question = " ".join(sys.argv[1:]).strip() if len(sys.argv) > 1 else None
     return run_manual_demo(question=question)
 
